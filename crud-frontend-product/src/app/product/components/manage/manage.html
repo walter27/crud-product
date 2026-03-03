@@ -1,0 +1,16 @@
+<div class="container mx-auto px-4">
+    <app-table [rows]="listaObjects()" (edit)="onEdit($event)" (remove)="onDelete($event)"></app-table>
+</div>
+@if (openModal()) {
+<app-modal (saved)="onModalSave()">
+    @if(success()){
+    <app-success />
+    }
+    @if(error()){
+    <app-error></app-error>
+    }
+    @if(!success() && !error()){
+    <app-form />
+    }
+</app-modal>
+}

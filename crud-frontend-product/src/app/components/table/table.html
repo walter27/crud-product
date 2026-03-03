@@ -1,1 +1,56 @@
-<p>table works!</p>
+<div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+  <table class="min-w-full divide-y divide-slate-200 text-sm">
+    <thead class="bg-slate-50">
+      <tr>
+        @for (column of columns(); track column) {
+          <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+            {{ column }}
+          </th>
+        }
+        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-600">
+          acciones
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y divide-slate-100 bg-white">
+      @if (rows().length === 0) {
+        <tr>
+          <td class="px-4 py-8 text-center text-slate-500" [attr.colspan]="columns().length + 1">
+            No hay datos para mostrar.
+          </td>
+        </tr>
+      } @else {
+        @for (row of rows(); track $index) {
+          <tr class="hover:bg-slate-50/80">
+            @for (column of columns(); track column) {
+              <td class="max-w-xs px-4 py-3 text-slate-700">
+                <span class="block max-w-xs truncate">{{ formatValue(getCellValue(row, column)) }}</span>
+              </td>
+            }
+            <td class="px-4 py-3">
+              <div class="flex justify-end gap-2">
+                <button
+                  type="button"
+                  class="rounded-md bg-amber-500 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-amber-600"
+                  (click)="onEdit(row)"
+                >
+                  Editar
+                </button>
+                <button
+                  type="button"
+                  class="rounded-md bg-rose-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-rose-700"
+                  (click)="onDelete(row)"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
+
+

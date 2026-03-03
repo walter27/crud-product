@@ -25,36 +25,45 @@ export class HtppService {
           newProductsMap.set(product.id, product);
         });
         this.storeService.setProducts(newProductsMap);
+      }, (err) => {
+        this.storeService.setLoadingAndSuccesAndError(false, true)
       });
   }
 
-  addProduct(product: Product): void {
-    const productDto = productDtoAdapter(product);
+  addProduct(): void {
+    const productSelected = this.storeService.productSelected()
+    const productDto = productDtoAdapter(productSelected!);
     const products = new Map<number, Product>(this.storeService.products() ?? []);
     this.http.post<ProductDto>(`${this.baseUrl}/products`, productDto).subscribe((response) => {
       const createdProduct = productAdapter(response);
       products.set(createdProduct.id, createdProduct);
       this.storeService.setProducts(products);
+    }, (err) => {
+      this.storeService.setLoadingAndSuccesAndError(false, true)
     });
   }
 
-  updateProduct(product: Product): void {
-    const productDto = productDtoAdapter(product);
+  updateProduct(): void {
+    const productSelected = this.storeService.productSelected()
+    const productDto = productDtoAdapter(productSelected!);
     const products = new Map<number, Product>(this.storeService.products() ?? []);
-
     this.http.put<ProductDto>(`${this.baseUrl}/products`, productDto).subscribe((response) => {
       const updatedProduct = productAdapter(response);
       products.set(updatedProduct.id, updatedProduct);
       this.storeService.setProducts(products);
+    }, (err) => {
+      this.storeService.setLoadingAndSuccesAndError(false, true)
     });
   }
 
-  deleteProduct(id: number): void {
+  deleteProduct(): void {
     const products = new Map<number, Product>(this.storeService.products() ?? []);
-
-    this.http.delete(`${this.baseUrl}/products/${id}`).subscribe(() => {
-      products.delete(id);
+    const productSelected = this.storeService.productSelected()
+    this.http.delete(`${this.baseUrl}/products/${productSelected!.id}`).subscribe(() => {
+      products.delete(productSelected!.id);
       this.storeService.setProducts(products);
+    }, (err) => {
+      this.storeService.setLoadingAndSuccesAndError(false, true)
     });
   }
 }

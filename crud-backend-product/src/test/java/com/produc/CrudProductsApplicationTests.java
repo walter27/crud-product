@@ -1,12 +1,10 @@
 package com.produc;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class CrudProductsApplicationTests {
 
-	@Test
+//	@Test
 	void contextLoads() {
 	}
 

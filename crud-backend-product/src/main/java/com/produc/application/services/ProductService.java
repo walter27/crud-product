@@ -6,12 +6,13 @@ import com.produc.domain.models.Product;
 
 public interface ProductService {
 
-	Product save(Product product);
+    Product create(Product product);
 
-	List<Product> findAll();
+    Product update(Long id, Product product);
 
-	void deleteById(Long id);
+    Product findById(Long id);
 
-	Product update(Product product);
+    List<Product> findAll();
 
+    void deleteById(Long id);
 }

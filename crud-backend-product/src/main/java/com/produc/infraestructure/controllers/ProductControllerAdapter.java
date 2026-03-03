@@ -14,38 +14,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.produc.application.services.ProductService;
-import com.produc.infraestructure.controllers.mappers.ProductDtoMapper;
-import com.produc.infraestructure.controllers.models.ProductDto;
+import com.produc.infraestructure.controllers.mappers.ProductControllerMapper;
+import com.produc.infraestructure.models.ProductDto;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductControllerAdapter {
 
-	private final ProductService service;
-	private final ProductDtoMapper mapper;
+    private final ProductService service;
+    private final ProductControllerMapper mapper;
 
-	@GetMapping
-	public List<ProductDto> findAll() {
-		return mapper.toProduct(service.findAll());
-	}
+    @PostMapping
+    public ResponseEntity<ProductDto> create(@Valid @RequestBody ProductDto productDto) {
+        ProductDto productCreated = mapper.toProduct(service.create(mapper.toProductDto(productDto)));
+        return ResponseEntity.status(HttpStatus.CREATED).body(productCreated);
+    }
 
-	@PostMapping
-	public ResponseEntity<ProductDto> save(@RequestBody ProductDto productDto) {
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(mapper.toProductDto(service.save(mapper.toProduct(productDto))));
-	}
+    @GetMapping("/{id}")
+    public ProductDto findById(@PathVariable Long id) {
+        return mapper.toProduct(service.findById(id));
+    }
 
-	@PutMapping
-	public ProductDto update(@RequestBody ProductDto request) {
-		return mapper.toProductDto(service.update(mapper.toProduct(request)));
-	}
+    @GetMapping
+    public List<ProductDto> findAll() {
+        return mapper.toProductList(service.findAll());
+    }
 
-	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
-		service.deleteById(id);
-	}
+    @PutMapping("/{id}")
+    public ProductDto update(@PathVariable Long id, @Valid @RequestBody ProductDto productDto) {
+        return mapper.toProduct(service.update(id, mapper.toProductDto(productDto)));
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

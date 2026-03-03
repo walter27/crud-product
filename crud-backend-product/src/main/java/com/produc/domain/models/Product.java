@@ -13,9 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Product {
 
-	private Long id;
-	private String name;
-	private BigDecimal price;
-	private Integer stock;
-
+    private Long id;
+    private String name;
+    private BigDecimal price;
+    private Integer stock;
 }

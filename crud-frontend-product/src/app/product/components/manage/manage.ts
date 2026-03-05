@@ -24,25 +24,25 @@ export class Manage {
   fields: FieldConfig[] = [
     {
       name: 'id',
-      label: 'Id',
+      label: 'ID',
       type: 'text',
       validators: [],
     },
     {
       name: 'name',
-      label: 'Name',
+      label: 'Nombre',
       type: 'text',
       validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
     },
     {
       name: 'price',
-      label: 'Price',
+      label: 'Precio',
       type: 'text',
       validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
     },
     {
       name: 'stock',
-      label: 'Stock',
+      label: 'Inventario',
       type: 'text',
       validators: [Validators.required],
     },

@@ -1,8 +1,8 @@
 @let columns = fieldColumns();
 <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6">
     <div>
-        <h4 class="app-title text-xl">Register your appointment</h4>
-        <p class="app-subtitle mt-1">Complete the form details.</p>
+        <h4 class="app-title text-xl">Formulario de producto</h4>
+        <p class="app-subtitle mt-1">Completa los datos del producto.</p>
     </div>
 
   <div class="grid grid-cols-1 gap-2 md:[grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
@@ -18,7 +18,7 @@
                   'app-field-error': hasError(field.name)
                 }" />
                 @if (hasError(field.name)) {
-                <small class="app-error-text">Invalid field</small>
+                <small class="app-error-text">Campo inválido</small>
                 }
                 }
 
@@ -28,13 +28,13 @@
                     [ngClass]="{
                   'app-field-error': hasError(field.name)
                 }">
-                    <option value="">Select</option>
+                    <option value="">Seleccionar</option>
                     @for (opt of field.options; track $index) {
                     <option [value]="opt.value">{{ opt.label }}</option>
                     }
                 </select>
                 @if (hasError(field.name)) {
-                <small class="app-error-text">Invalid field</small>
+                <small class="app-error-text">Campo inválido</small>
                 }
                 }
 

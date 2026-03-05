@@ -38,6 +38,7 @@ export class HtppService {
       const createdProduct = productAdapter(response);
       products.set(createdProduct.id, createdProduct);
       this.storeService.setProducts(products);
+      this.storeService.setLoadingAndSuccesAndError(true, false);
     }, (err) => {
       this.storeService.setLoadingAndSuccesAndError(false, true)
     });
@@ -45,12 +46,19 @@ export class HtppService {
 
   updateProduct(): void {
     const productSelected = this.storeService.productSelected()
+    const productId = Number(productSelected?.id);
+    if (!Number.isFinite(productId)) {
+      this.storeService.setLoadingAndSuccesAndError(false, true);
+      return;
+    }
+
     const productDto = productDtoAdapter(productSelected!);
     const products = new Map<number, Product>(this.storeService.products() ?? []);
-    this.http.put<ProductDto>(`${this.baseUrl}/products`, productDto).subscribe((response) => {
+    this.http.put<ProductDto>(`${this.baseUrl}/products/${productId}`, productDto).subscribe((response) => {
       const updatedProduct = productAdapter(response);
       products.set(updatedProduct.id, updatedProduct);
       this.storeService.setProducts(products);
+      this.storeService.setLoadingAndSuccesAndError(true, false);
     }, (err) => {
       this.storeService.setLoadingAndSuccesAndError(false, true)
     });
@@ -62,9 +70,9 @@ export class HtppService {
     this.http.delete(`${this.baseUrl}/products/${productSelected!.id}`).subscribe(() => {
       products.delete(productSelected!.id);
       this.storeService.setProducts(products);
+      this.storeService.setLoadingAndSuccesAndError(true, false);
     }, (err) => {
       this.storeService.setLoadingAndSuccesAndError(false, true)
     });
   }
 }
-

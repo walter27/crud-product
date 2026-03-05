@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { Manage } from './components/manage/manage';
 
 @Component({
   selector: 'app-product',
-  imports: [],
+  imports: [Manage],
   templateUrl: './product.html',
   styleUrl: './product.css',
 })

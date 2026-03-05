@@ -17,6 +17,7 @@ import { Error } from '../../../components/error/error';
   styleUrl: './manage.css',
 })
 export class Manage {
+  modalMode: 'form' | 'delete' = 'form';
 
   @ViewChild(Form) formComponent?: Form;
 
@@ -41,8 +42,8 @@ export class Manage {
     },
     {
       name: 'stock',
-      label: 'Email',
-      type: 'email',
+      label: 'Stock',
+      type: 'text',
       validators: [Validators.required],
     },
   ];
@@ -50,33 +51,65 @@ export class Manage {
   storeService = inject(Store);
   httpService = inject(HtppService)
 
+  readonly listaObjects = computed(() => Array.from(this.storeService.products()?.values() ?? []));
 
-  readonly listaObjects = computed<Product[]>(() =>
-    Array.from(this.storeService.products()?.values() ?? []),
-  );
+  ngOnInit(): void {
+    this.httpService.getProducts();
+    this.storeService.setFields(this.fields)
+  }
 
   openModal = this.storeService.openModal
   success = this.storeService.success
   error = this.storeService.error;
 
+  onAdd(): void {
+    this.modalMode = 'form';
+    this.storeService.setLoadingAndSuccesAndError(false, false);
+    this.storeService.setObjectSelected(null, 'product');
+    this.storeService.setOpenModal(true);
+  }
+
 
   onDelete(product: unknown): void {
+    this.modalMode = 'delete';
+    this.storeService.setLoadingAndSuccesAndError(false, false);
     this.storeService.setObjectSelected(product as Product, 'product');
-    this.httpService.deleteProduct()
+    this.storeService.setOpenModal(true)
   }
 
   onEdit(product: unknown): void {
+    this.modalMode = 'form';
+    this.storeService.setLoadingAndSuccesAndError(false, false);
     this.storeService.setObjectSelected(product as Product, 'product');
-    this.httpService.updateProduct()
+    this.storeService.setOpenModal(true)
   }
 
   onModalSave(): void {
     if (this.error() || this.success()) {
       this.storeService.setOpenModal(false)
+      this.storeService.setLoadingAndSuccesAndError(false, false);
+      this.modalMode = 'form';
       return
     }
-    this.formComponent?.submit();
+
+    if (this.modalMode === 'delete') {
+      this.httpService.deleteProduct()
+      return
+    }
+
+    const isValid = this.formComponent?.submit() ?? false;
+    if (!isValid) {
+      return;
+    }
+
+    const productSelected = this.storeService.productSelected();
+    const idValue = productSelected?.id;
+    const hasValidId = idValue !== null && idValue !== undefined && String(idValue).trim() !== '' && Number(idValue) > 0;
+    if (hasValidId) {
+      this.httpService.updateProduct()
+      return
+    }
+
     this.httpService.addProduct()
   }
 }
-

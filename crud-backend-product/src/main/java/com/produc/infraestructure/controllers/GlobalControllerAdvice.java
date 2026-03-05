@@ -47,7 +47,7 @@ public class GlobalControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    @ExceptionHandler(AuthenticationException.class)
+    /*@ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorDto> handleAuthenticationException(AuthenticationException exception) {
         ErrorDto error = ErrorDto.builder()
                 .code("UNAUTHORIZED")
@@ -67,7 +67,7 @@ public class GlobalControllerAdvice {
                 .timestamp(LocalDateTime.now())
                 .build();
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
-    }
+    }*/
 
     private String formatFieldError(FieldError fieldError) {
         return fieldError.getField() + ": " + fieldError.getDefaultMessage();

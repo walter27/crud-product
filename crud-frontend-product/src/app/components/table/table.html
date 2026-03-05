@@ -1,45 +1,46 @@
-<div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
-  <table class="min-w-full divide-y divide-slate-200 text-sm">
-    <thead class="bg-slate-50">
+<div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+  <div class="overflow-x-auto">
+    <table class="min-w-full border-separate border-spacing-0 text-sm">
+      <thead class="bg-slate-50/95">
       <tr>
         @for (column of columns(); track column) {
-          <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+          <th class="whitespace-nowrap border-b border-slate-200 px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500">
             {{ column }}
           </th>
         }
-        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-600">
+        <th class="whitespace-nowrap border-b border-slate-200 px-5 py-3 text-right text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500">
           acciones
         </th>
       </tr>
     </thead>
 
-    <tbody class="divide-y divide-slate-100 bg-white">
+    <tbody class="bg-white">
       @if (rows().length === 0) {
         <tr>
-          <td class="px-4 py-8 text-center text-slate-500" [attr.colspan]="columns().length + 1">
+          <td class="px-5 py-12 text-center text-sm text-slate-500" [attr.colspan]="columns().length + 1">
             No hay datos para mostrar.
           </td>
         </tr>
       } @else {
         @for (row of rows(); track $index) {
-          <tr class="hover:bg-slate-50/80">
+          <tr class="transition-colors odd:bg-white even:bg-slate-50/25 hover:bg-slate-50">
             @for (column of columns(); track column) {
-              <td class="max-w-xs px-4 py-3 text-slate-700">
-                <span class="block max-w-xs truncate">{{ formatValue(getCellValue(row, column)) }}</span>
+              <td class="max-w-[16rem] border-b border-slate-100 px-5 py-4 text-slate-700">
+                <span class="block truncate font-medium">{{ formatValue(getCellValue(row, column)) }}</span>
               </td>
             }
-            <td class="px-4 py-3">
+            <td class="border-b border-slate-100 px-5 py-4">
               <div class="flex justify-end gap-2">
                 <button
                   type="button"
-                  class="rounded-md bg-amber-500 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-amber-600"
+                  class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100"
                   (click)="onEdit(row)"
                 >
                   Editar
                 </button>
                 <button
                   type="button"
-                  class="rounded-md bg-rose-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-rose-700"
+                  class="rounded-lg border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-800 transition hover:bg-rose-100"
                   (click)="onDelete(row)"
                 >
                   Eliminar
@@ -50,7 +51,8 @@
         }
       }
     </tbody>
-  </table>
+    </table>
+  </div>
 </div>
 
 

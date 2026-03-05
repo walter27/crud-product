@@ -7,25 +7,25 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
+//import org.springframework.http.HttpHeaders;
+//import org.springframework.security.authentication.BadCredentialsException;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+//import io.jsonwebtoken.Claims;
+//import io.jsonwebtoken.Jwts;
+//import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class FilterJWT extends OncePerRequestFilter {
+public class FilterJWT  {
 
-    private static final String BEARER_PREFIX = "Bearer ";
+   /* private static final String BEARER_PREFIX = "Bearer ";
     private static final String ROLES_CLAIM = "roles";
     private static final String PRODUCTS_PATH = "/products";
 
@@ -91,5 +91,5 @@ public class FilterJWT extends OncePerRequestFilter {
                 .map(role -> role.startsWith("ROLE_") ? role : "ROLE_" + role)
                 .map(SimpleGrantedAuthority::new)
                 .toList();
-    }
+    }*/
 }

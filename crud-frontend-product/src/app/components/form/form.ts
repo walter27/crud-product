@@ -28,13 +28,20 @@ export class Form {
       ];
     });
     this.form = this.fb.group(controls);
+
+    const selectedProduct = this.storeService.productSelected();
+    if (selectedProduct) {
+      this.form.patchValue(selectedProduct);
+    }
   }
 
-  submit() {
+  submit(): boolean {
     if (this.form.valid) {
-      this.storeService.setObject(this.form.value, "customer")
+      this.storeService.setObjectSelected(this.form.getRawValue(), 'product');
+      return true;
     } else {
       this.form.markAllAsTouched();
+      return false;
     }
   }
 

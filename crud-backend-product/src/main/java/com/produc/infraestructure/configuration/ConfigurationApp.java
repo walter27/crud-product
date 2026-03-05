@@ -41,7 +41,7 @@ public class ConfigurationApp {
 	@Value("${app.jwt.secret}")
 	String jwtSecret;
 
-	@Bean
+	/*@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http, FilterJWT filterJWT,
 			AuthenticationEntryPoint authenticationEntryPoint, AccessDeniedHandler accessDeniedHandler) throws Exception {
 		http.cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable())
@@ -74,6 +74,16 @@ public class ConfigurationApp {
 	public AccessDeniedHandler accessDeniedHandler(ObjectMapper objectMapper) {
 		return (request, response, exception) -> writeError(response, HttpStatus.FORBIDDEN,
 				buildError("FORBIDDEN", exception.getMessage()), objectMapper);
+	}*/
+
+
+
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable())
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+		return http.build();
 	}
 
 	@Bean
@@ -104,7 +114,7 @@ public class ConfigurationApp {
 		return JsonMapper.builder().propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE).build();
 	}
 
-	private ErrorDto buildError(String code, String message) {
+	/*private ErrorDto buildError(String code, String message) {
 		return ErrorDto.builder().code(code).message(message).details(List.of()).timestamp(LocalDateTime.now()).build();
 	}
 
@@ -113,5 +123,5 @@ public class ConfigurationApp {
 		response.setStatus(status.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		objectMapper.writeValue(response.getWriter(), error);
-	}
+	}*/
 }

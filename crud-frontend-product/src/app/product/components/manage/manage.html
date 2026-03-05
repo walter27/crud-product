@@ -1,6 +1,20 @@
-<div class="container mx-auto px-4">
-    <app-table [rows]="listaObjects()" (edit)="onEdit($event)" (remove)="onDelete($event)"></app-table>
-</div>
+<section class="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <div class="rounded-3xl border border-slate-200/80 bg-white/80 p-4 shadow-sm backdrop-blur sm:p-6">
+        <div class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h1 class="app-title text-2xl sm:text-3xl">Product Management</h1>
+                <p class="app-subtitle mt-1">Manage, edit and remove products from one place.</p>
+            </div>
+            <button type="button" class="app-btn app-btn-primary w-full sm:w-auto" (click)="onAdd()">
+                Add Product
+            </button>
+        </div>
+
+        <div class="mx-auto w-full">
+            <app-table [rows]="listaObjects()" (edit)="onEdit($event)" (remove)="onDelete($event)"></app-table>
+        </div>
+    </div>
+</section>
 @if (openModal()) {
 <app-modal (saved)="onModalSave()">
     @if(success()){
@@ -9,8 +23,20 @@
     @if(error()){
     <app-error></app-error>
     }
-    @if(!success() && !error()){
+    @if(!success() && !error() && modalMode === 'form'){
     <app-form />
+    }
+    @if(!success() && !error() && modalMode === 'delete'){
+    <section class="w-full py-2 sm:py-4">
+        <div class="app-status-card app-status-error">
+            <div class="space-y-3 text-center">
+                <h3 class="app-title text-2xl">Confirm delete</h3>
+                <p class="app-subtitle text-base leading-relaxed">
+                    Are you sure you want to delete this product? This action cannot be undone.
+                </p>
+            </div>
+        </div>
+    </section>
     }
 </app-modal>
 }

@@ -69,6 +69,10 @@ export class Store {
     this.state.update((s) => ({ ...s, success, error }))
   }
 
+   setFields(fields: FieldConfig[]) {
+    this.state.update((s) => ({ ...s, fields }))
+  }
+
 
 }
 

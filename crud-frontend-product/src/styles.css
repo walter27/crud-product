@@ -1,1 +1,158 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --app-bg: #f8fafc;
+    --app-surface: #ffffff;
+    --app-text: #0f172a;
+    --app-border: #e2e8f0;
+    --app-primary: #0f766e;
+    --app-primary-hover: #115e59;
+  }
+
+  * {
+    @apply border-slate-200;
+  }
+
+  html {
+    @apply antialiased;
+    font-family: "Inter", "Segoe UI", sans-serif;
+    color: var(--app-text);
+    background-color: var(--app-bg);
+  }
+
+  body {
+    @apply m-0 min-h-screen;
+    background:
+      radial-gradient(1200px 500px at 10% -20%, #ffffff 0%, transparent 70%),
+      radial-gradient(900px 400px at 100% 0%, #ecfeff 0%, transparent 60%),
+      var(--app-bg);
+    color: var(--app-text);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply tracking-tight text-slate-900;
+  }
+
+  p {
+    @apply text-slate-600;
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .app-title {
+    @apply text-2xl font-semibold tracking-tight text-slate-900;
+  }
+
+  .app-subtitle {
+    @apply text-sm text-slate-500;
+  }
+
+  .app-btn {
+    @apply inline-flex items-center justify-center rounded-xl border px-4 py-2 text-sm font-semibold transition-colors duration-200;
+  }
+
+  .app-btn-primary {
+    border-color: var(--app-primary);
+    background-color: var(--app-primary);
+    color: #ffffff;
+  }
+
+  .app-btn-primary:hover {
+    border-color: var(--app-primary-hover);
+    background-color: var(--app-primary-hover);
+  }
+
+  .app-btn-ghost {
+    @apply border-slate-300 bg-white text-slate-700;
+  }
+
+  .app-btn-ghost:hover {
+    @apply bg-slate-50;
+  }
+
+  .app-icon-btn {
+    @apply inline-flex h-10 w-10 items-center justify-center rounded-full border border-transparent text-xl text-slate-500 transition-colors duration-200;
+  }
+
+  .app-icon-btn:hover {
+    @apply bg-slate-100 text-slate-800;
+  }
+
+  .app-field {
+    @apply w-full rounded-xl border bg-white px-3 py-2 text-sm text-slate-900 outline-none transition-colors;
+    border-color: var(--app-border);
+  }
+
+  .app-field:focus {
+    border-color: #14b8a6;
+    box-shadow: 0 0 0 3px rgb(20 184 166 / 0.15);
+  }
+
+  .app-field-error {
+    border-color: #f43f5e;
+  }
+
+  .app-field-error:focus {
+    border-color: #f43f5e;
+    box-shadow: 0 0 0 3px rgb(244 63 94 / 0.15);
+  }
+
+  .app-label {
+    @apply block text-sm font-medium text-slate-700;
+  }
+
+  .app-error-text {
+    @apply block text-xs font-medium text-rose-600;
+  }
+
+  .app-status-card {
+    @apply mx-auto w-full max-w-2xl rounded-2xl px-6 py-8 sm:px-10 sm:py-10;
+    background-color: var(--app-surface);
+    border: 1px solid var(--app-border);
+  }
+
+  .app-status-icon {
+    @apply flex h-16 w-16 shrink-0 items-center justify-center rounded-full sm:h-20 sm:w-20;
+  }
+
+  .app-status-success .app-status-icon {
+    @apply bg-emerald-50 text-emerald-600;
+  }
+
+  .app-status-error .app-status-icon {
+    @apply bg-rose-50 text-rose-600;
+  }
+}
+
+@layer utilities {
+  .app-modal-backdrop {
+    @apply fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4;
+    background-color: rgb(15 23 42 / 0.45);
+    backdrop-filter: blur(2px);
+  }
+
+  .app-modal-panel {
+    @apply relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl shadow-xl;
+    background-color: var(--app-surface);
+    border: 1px solid var(--app-border);
+  }
+
+  .app-modal-content {
+    @apply px-5 py-4 sm:px-10;
+  }
+
+  .app-modal-actions {
+    @apply flex flex-col-reverse gap-2 px-5 py-4 sm:flex-row sm:justify-end sm:px-6;
+    border-top: 1px solid var(--app-border);
+  }
+}

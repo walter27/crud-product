@@ -7,7 +7,7 @@ import { Component, computed, input, output } from '@angular/core';
   styleUrl: './table.css',
 })
 export class Table {
-  readonly rows = input<unknown[]>([]);
+  readonly rows = input<unknown[]>([]);  
 
   readonly edit = output<unknown>();
   readonly remove = output<unknown>();

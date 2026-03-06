@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.produc.application.repositories.ProductRepository;
 import com.produc.application.services.ProductService;
-import com.produc.domain.exceptions.ProductException;
+import com.produc.domain.exceptions.ProductNotFoundException;
 import com.produc.domain.models.Product;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class ProductAdapter implements ProductService {
 
     @Override
     public Product update(Long id, Product product) {
-        Product productFound = repository.findById(id).orElseThrow(() -> new ProductException(id));
+        Product productFound = repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
         productFound.setName(product.getName());
         productFound.setPrice(product.getPrice());
         productFound.setStock(product.getStock());
@@ -34,7 +34,7 @@ public class ProductAdapter implements ProductService {
 
     @Override
     public Product findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new ProductException(id));
+        return repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ProductAdapter implements ProductService {
 
     @Override
     public void deleteById(Long id) {
-        Product product = repository.findById(id).orElseThrow(() -> new ProductException(id));
+        Product product = repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
         repository.deleteById(product.getId());
     }
 }

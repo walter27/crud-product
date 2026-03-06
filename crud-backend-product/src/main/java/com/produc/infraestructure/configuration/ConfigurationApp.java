@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,16 +40,13 @@ public class ConfigurationApp {
 	@Value("${app.jwt.secret}")
 	String jwtSecret;
 
-	/*@Bean
+	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http, FilterJWT filterJWT,
 			AuthenticationEntryPoint authenticationEntryPoint, AccessDeniedHandler accessDeniedHandler) throws Exception {
 		http.cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth.requestMatchers("/h2-console/**").permitAll()
-						.requestMatchers(HttpMethod.GET, "/products/**").hasAnyRole("USER", "ADMIN")
-						.requestMatchers(HttpMethod.POST, "/products/**").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
+						.requestMatchers("/products/**").authenticated()
 						.anyRequest().permitAll())
 				.exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint)
 						.accessDeniedHandler(accessDeniedHandler))
@@ -74,18 +70,7 @@ public class ConfigurationApp {
 	public AccessDeniedHandler accessDeniedHandler(ObjectMapper objectMapper) {
 		return (request, response, exception) -> writeError(response, HttpStatus.FORBIDDEN,
 				buildError("FORBIDDEN", exception.getMessage()), objectMapper);
-	}*/
-
-
-
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable())
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
-		return http.build();
 	}
-
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 
@@ -114,7 +99,7 @@ public class ConfigurationApp {
 		return JsonMapper.builder().propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE).build();
 	}
 
-	/*private ErrorDto buildError(String code, String message) {
+	private ErrorDto buildError(String code, String message) {
 		return ErrorDto.builder().code(code).message(message).details(List.of()).timestamp(LocalDateTime.now()).build();
 	}
 
@@ -123,5 +108,5 @@ public class ConfigurationApp {
 		response.setStatus(status.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		objectMapper.writeValue(response.getWriter(), error);
-	}*/
+	}
 }

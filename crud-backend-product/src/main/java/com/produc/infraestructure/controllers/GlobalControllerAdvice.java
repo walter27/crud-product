@@ -5,21 +5,19 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.produc.domain.exceptions.ProductException;
+import com.produc.domain.exceptions.ProductNotFoundException;
 import com.produc.infraestructure.models.ErrorDto;
 
 @RestControllerAdvice
 public class GlobalControllerAdvice {
 
-    @ExceptionHandler(ProductException.class)
-    public ResponseEntity<ErrorDto> handleProductException(ProductException exception) {
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleProductException(ProductNotFoundException exception) {
         ErrorDto error = ErrorDto.builder()
                 .code("PRODUCT_NOT_FOUND")
                 .message(exception.getMessage())
@@ -46,28 +44,6 @@ public class GlobalControllerAdvice {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
-
-    /*@ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ErrorDto> handleAuthenticationException(AuthenticationException exception) {
-        ErrorDto error = ErrorDto.builder()
-                .code("UNAUTHORIZED")
-                .message(exception.getMessage())
-                .details(List.of())
-                .timestamp(LocalDateTime.now())
-                .build();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorDto> handleAccessDeniedException(AccessDeniedException exception) {
-        ErrorDto error = ErrorDto.builder()
-                .code("FORBIDDEN")
-                .message(exception.getMessage())
-                .details(List.of())
-                .timestamp(LocalDateTime.now())
-                .build();
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
-    }*/
 
     private String formatFieldError(FieldError fieldError) {
         return fieldError.getField() + ": " + fieldError.getDefaultMessage();

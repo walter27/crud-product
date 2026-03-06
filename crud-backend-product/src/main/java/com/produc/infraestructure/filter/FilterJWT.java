@@ -2,31 +2,25 @@ package com.produc.infraestructure.filter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
-//import org.springframework.http.HttpHeaders;
-//import org.springframework.security.authentication.BadCredentialsException;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.context.SecurityContextHolder;
-//import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-//import io.jsonwebtoken.Claims;
-//import io.jsonwebtoken.Jwts;
-//import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class FilterJWT  {
+public class FilterJWT extends OncePerRequestFilter   {
 
-   /* private static final String BEARER_PREFIX = "Bearer ";
-    private static final String ROLES_CLAIM = "roles";
+    private static final String BEARER_PREFIX = "Bearer ";
     private static final String PRODUCTS_PATH = "/products";
 
     private final String jwtSecret;
@@ -35,7 +29,7 @@ public class FilterJWT  {
         this.jwtSecret = jwtSecret;
     }
 
-    @Override
+    @Override 
     protected boolean shouldNotFilter(HttpServletRequest request) {
         return !request.getRequestURI().startsWith(PRODUCTS_PATH);
     }
@@ -66,9 +60,8 @@ public class FilterJWT  {
                 throw new BadCredentialsException("Invalid token subject");
             }
 
-            Collection<? extends GrantedAuthority> authorities = extractAuthorities(claims);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(subject, null,
-                    authorities);
+                    List.of());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
@@ -76,20 +69,4 @@ public class FilterJWT  {
             throw new BadCredentialsException("Invalid or expired token", exception);
         }
     }
-
-    private Collection<? extends GrantedAuthority> extractAuthorities(Claims claims) {
-        Object rolesObject = claims.get(ROLES_CLAIM);
-        if (!(rolesObject instanceof List<?> rolesList)) {
-            return Collections.emptyList();
-        }
-
-        return rolesList.stream()
-                .filter(Objects::nonNull)
-                .map(Object::toString)
-                .map(String::trim)
-                .filter(role -> !role.isBlank())
-                .map(role -> role.startsWith("ROLE_") ? role : "ROLE_" + role)
-                .map(SimpleGrantedAuthority::new)
-                .toList();
-    }*/
 }

@@ -5,10 +5,9 @@ import lombok.Getter;
 @Getter
 public enum ErrorCatalog {
 
-	EMPLOYEE_NOT_FOUND("ERR_EMP_001", "Product not found."),
-	INVALID_EMPLOYEE("ERR_ENP_002", "Invalid product parameters."),
-	GENERIC_ERROR("ERR_GEN_001", "An unexpected error occurred."),
-	APPOINTMENT_ERROR("ERR_APP_001","Error registering shift");
+	PRODUCT_NOT_FOUND("ERR_PRD_001", "Product not found."),
+	INVALID_PRODUCT("ERR_PRD_002", "Invalid product parameters."),
+	GENERIC_ERROR("ERR_GEN_001", "An unexpected error occurred.");
 
 	private final String code;
 	private final String message;
